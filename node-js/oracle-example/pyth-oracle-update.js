@@ -18,13 +18,11 @@ const PRICE_IDS = [
 async function updatePythContractPriceFeeds(network) {
   // Connect to the NEAR network
   const { rpcProvider, signer } = nearConnect(sender, network);
-  // subtract 500ms to account for network latency
-  const publishTime = Math.floor((Date.now() - 500) / 1000); 
+
   // Get the price data from the Hermes API
   // See /utils/fetch-hermes-price-data.js for more details
-  const hermesData = await getHermesPriceData( PRICE_IDS[0], publishTime, network);
-  console.log(hermesData);
-  
+  const hermesData = await getHermesPriceData( PRICE_IDS[0], network);
+
   // Update the Pyth Oracle contract with the price data
   // Performs a NEAR function call to the Pyth Oracle contract
   const result = await functionCall({
