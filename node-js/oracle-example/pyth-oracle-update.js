@@ -25,12 +25,13 @@ async function updatePythContractPriceFeeds(network) {
 
   // Update the Pyth Oracle contract with the price data
   // Performs a NEAR function call to the Pyth Oracle contract
+  // Deposit for transaction fee (balance will be refunded)
   const result = await functionCall({
     sender,
     receiver,
     method: 'update_price_feeds',
     args: { data: hermesData },
-    deposit: 100000000000000000000000,
+    deposit: 10000000000000000000000, 
     deps: { rpcProvider, signer },
   });
 

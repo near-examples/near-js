@@ -11,15 +11,10 @@ async function getHermesPriceData(priceId, network) {
       ? (url = HERMES_TESTNET_URL)
       : (url = HERMES_MAINNET_URL);
 
-    // Get the current time and subtract 500ms to account for network latency
-    const publishTime = Math.floor((Date.now() - 500) / 1000);
-
     // Fetch the price data from the Hermes API
-    const response = await axios.get(`${url}/api/get_vaa?id=${priceId}&publish_time=${publishTime}`);
+    const response = await axios.get(`${url}/v2/updates/price/latest?ids[]=${priceId}`);
 
-    // NEAR requires data in hex format
-    const base64toHex = Buffer.from(response.data.vaa, 'base64').toString('hex');
-    return base64toHex;
+    return response.data.binary.data[0];
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
   }
